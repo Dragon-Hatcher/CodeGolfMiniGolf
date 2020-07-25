@@ -58,25 +58,25 @@ public class MinigolfCodeGolf {
 	" +-+      " + "\n" +	
 	"          " + "\n";
 	
-	static int power = 11;
+	static int power = 13;
 	
 	public static void main(String[] args) {
-		if(timeToHole(course, Direction.NORTH) == power || 
-				timeToHole(course, Direction.EAST) == power || 
-				timeToHole(course, Direction.SOUTH) == power || 
-				timeToHole(course, Direction.WEST) == power) {
+		if(timeToHole(course, Direction.NORTH, power) == power || 
+				timeToHole(course, Direction.EAST, power) == power || 
+				timeToHole(course, Direction.SOUTH, power) == power || 
+				timeToHole(course, Direction.WEST, power) == power) {
 			System.out.println(true);
-		} else if(timeToHole(course, Direction.NORTH) != -1 || 
-					timeToHole(course, Direction.EAST) != -1 || 
-					timeToHole(course, Direction.SOUTH) != -1 || 
-					timeToHole(course, Direction.WEST) != -1) {
+		} else if(timeToHole(course, Direction.NORTH, power) != -1 || 
+					timeToHole(course, Direction.EAST, power) != -1 || 
+					timeToHole(course, Direction.SOUTH, power) != -1 || 
+					timeToHole(course, Direction.WEST, power) != -1) {
 			System.out.println("medium");			
 		} else {
 			System.out.println(false);						
 		}
 	}
 	
-	private static int timeToHole(String courseString, Direction startDirection) {
+	private static int timeToHole(String courseString, Direction startDirection, int power) {
 		String[] rows = courseString.split("\n");
 		
 		char[][] course = new char[rows.length][];
@@ -97,7 +97,9 @@ public class MinigolfCodeGolf {
 			}
 		}
 		
-		while(course[ball.x][ball.y] != 'O') {
+		int foundBall = -1;
+		
+		while(true) {
 			moveCount++;
 			
 			switch(ball.direction) {
@@ -137,15 +139,22 @@ public class MinigolfCodeGolf {
 				break;
 			}
 			
+			if(course[ball.x][ball.y] == 'O') {
+				foundBall = moveCount;
+				if(moveCount == power) {
+					break;
+				}
+			}
+			
 			PointRotation currentPR = new PointRotation(ball.x, ball.y, ball.direction);
 			if(visitedLocations.contains(currentPR)) {
-				return -1;
+				break;
 			} else {
 				visitedLocations.add(currentPR);
 			}
 		}
 		
-		return moveCount;
+		return foundBall;
 	}
 
 }
