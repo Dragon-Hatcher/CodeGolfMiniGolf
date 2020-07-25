@@ -66,8 +66,13 @@ public class MinigolfCodeGolf {
 				timeToHole(course, Direction.SOUTH) == power || 
 				timeToHole(course, Direction.WEST) == power) {
 			System.out.println(true);
+		} else if(timeToHole(course, Direction.NORTH) != -1 || 
+					timeToHole(course, Direction.EAST) != -1 || 
+					timeToHole(course, Direction.SOUTH) != -1 || 
+					timeToHole(course, Direction.WEST) != -1) {
+			System.out.println("medium");			
 		} else {
-			System.out.println(false);			
+			System.out.println(false);						
 		}
 	}
 	
